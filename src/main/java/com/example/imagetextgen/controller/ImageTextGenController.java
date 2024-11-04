@@ -45,10 +45,17 @@ public class ImageTextGenController {
 
         // Analyze the image
         String analysisText = imageTextGenService.analyzeImage(imageFile, message);
+        String  keyword= analysisText.replaceAll("\\\\", "");
+        // 수학이미지 인 경우만 처리
+        String searchKeyword = imageTextGenService.extractKeyPhraseForYouTubeSearch(keyword);
 
-        String imageUrl = "/uploads/" + filename;
+        // Search for related YouTube videos
+        List<String> youtubeUrls = imageTextGenService.searchYouTubeVideos(searchKeyword);
+        System.out.println(youtubeUrls.size());
+        String imageUrl = "/uploads/" + filename; // Relative path for accessing from frontend
 
-        ImageAnalysisVO response = new ImageAnalysisVO(imageUrl, analysisText, null);
+        // Create and return the ImageAnalysisVO with image URL, analysis text, and YouTube URLs
+        ImageAnalysisVO response = new ImageAnalysisVO(imageUrl, analysisText, youtubeUrls);
         return ResponseEntity.ok(response);
     }
 }

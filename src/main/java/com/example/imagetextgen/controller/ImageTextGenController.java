@@ -30,7 +30,8 @@ public class ImageTextGenController {
     @PostMapping("/analyze")
     public ResponseEntity<ImageAnalysisVO> getMultimodalResponse(
             @RequestParam("image") MultipartFile imageFile,
-            @RequestParam(defaultValue = "이 이미지에 무엇이 있나요?") String message) throws IOException {
+            @RequestParam(defaultValue = "이 이미지에 무엇이 있나요?") String message)
+                                                                                            throws IOException {
 
         // Ensure the upload directory exists
         File uploadDirectory = new File(uploadPath);
@@ -46,16 +47,14 @@ public class ImageTextGenController {
         // Analyze the image
         String analysisText = imageTextGenService.analyzeImage(imageFile, message);
         String  keyword= analysisText.replaceAll("\\\\", "");
-        // 수학이미지 인 경우만 처리
         String searchKeyword = imageTextGenService.extractKeyPhraseForYouTubeSearch(keyword);
 
-        // Search for related YouTube videos
         List<String> youtubeUrls = imageTextGenService.searchYouTubeVideos(searchKeyword);
         System.out.println(youtubeUrls.size());
+        // http://localhost:8080/uploads/323232323.png
         String imageUrl = "/uploads/" + filename; // Relative path for accessing from frontend
 
-        // Create and return the ImageAnalysisVO with image URL, analysis text, and YouTube URLs
         ImageAnalysisVO response = new ImageAnalysisVO(imageUrl, analysisText, youtubeUrls);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(response); // { "imageUrl":".....", "analysisText":"..........","youtubeUrls",[    ]}
     }
 }

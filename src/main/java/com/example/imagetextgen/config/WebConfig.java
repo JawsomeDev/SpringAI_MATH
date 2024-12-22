@@ -18,9 +18,3 @@ public class WebConfig implements WebMvcConfigurer {
         // src/main/resources/static/uploads/
     }
 }
-
-/*
-   //                                    /uploads/**
-  <img src="http://localhost:8080/uploads/454555454.png"/>
-
- */

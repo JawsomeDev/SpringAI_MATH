@@ -46,7 +46,7 @@ public class ImageTextGenController {
         String analysisText = imageTextGenService.analyzeImage(imageFile, message);
         String searchKeyword = imageTextGenService.extractKeyYouTubeSearch(analysisText);
         List<String> youtubeUrls = imageTextGenService.searchYouTubeVideos(searchKeyword);
-        String imageUrl = "/uploads/" + filename; // Relative path for accessing from frontend
+        String imageUrl = "/uploads/" + filename;
 
         ImageAnalysisVO response = new ImageAnalysisVO(imageUrl, analysisText, youtubeUrls);
         return ResponseEntity.ok(response);

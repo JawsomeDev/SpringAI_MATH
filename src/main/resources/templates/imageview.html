@@ -71,59 +71,39 @@
                 document.getElementById("uploadedImage").src = data.imageUrl;
                 document.getElementById("analysisText").innerText = data.analysisText;
                 MathJax.typeset();
-                // Display YouTube videos as cards
-                if (data.youtubeUrls && data.youtubeUrls.length > 0) {
-                    const youtubeVideosContainer = document.getElementById("youtubeVideos");
-                    data.youtubeUrls.forEach(url => {
-                        const videoId = url.split("v=")[1];
 
-                        // Create the card container
-                        const videoCard = document.createElement("div");
-                        videoCard.className = "col-md-6 mb-4";
-
-                        // Create the card
-                        const card = document.createElement("div");
-                        card.className = "card h-100";
-
-                        // Create the iframe for the YouTube video
-                        const iframe = document.createElement("iframe");
-                        iframe.src = `https://www.youtube.com/embed/${videoId}`;
-                        iframe.frameBorder = "0";
-                        iframe.allowFullscreen = true;
-                        iframe.className = "card-img-top";
-                        iframe.style.width = "100%";
-                        iframe.style.height = "200px";
-
-                        // Append the iframe to the card
-                        card.appendChild(iframe);
-
-                        // Add a card body with title or placeholder text
-                        const cardBody = document.createElement("div");
-                        cardBody.className = "card-body text-center";
-                        const title = document.createElement("h6");
-                        title.className = "card-title";
-                        title.textContent = "Related Video";
-
-                        // Append the title to the card body, and card body to the card
-                        cardBody.appendChild(title);
-                        card.appendChild(cardBody);
-
-                        // Append the card to the card container
-                        videoCard.appendChild(card);
-                        youtubeVideosContainer.appendChild(videoCard);
-                    });
-                }
-            } else {
-                alert("Image analysis failed. Please try again.");
+        // Display YouTube videos as cards
+            if (data.youtubeUrls && data.youtubeUrls.length > 0) {
+                const youtubeVideosContainer = document.getElementById("youtubeVideos");
+                data.youtubeUrls.forEach(videoId => {
+                    const cardHtml = `
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <iframe
+                                    src="https://www.youtube.com/embed/${videoId}"
+                                    frameborder="0"
+                                    allowfullscreen
+                                    class="card-img-top"
+                                    style="width: 100%; height: 200px;">
+                                </iframe>
+                                <div class="card-body text-center">
+                                    <h6 class="card-title">Related Video</h6>
+                                </div>
+                            </div>
+                        </div>`;
+                    youtubeVideosContainer.innerHTML += cardHtml;
+                });
             }
-        } catch (error) {
-            console.error("Error:", error);
-            alert("An error occurred. Please try again.");
-        } finally {
-            // Hide loading message once the response is received or an error occurs
-            document.getElementById("loadingMessage").style.display = "none";
+        } else {
+            alert("Image analysis failed. Please try again.");
         }
-    });
+    } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred. Please try again.");
+    } finally {
+        document.getElementById("loadingMessage").style.display = "none";
+    }
+});
 </script>
 
 </body>

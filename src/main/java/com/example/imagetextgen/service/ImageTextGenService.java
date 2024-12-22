@@ -42,7 +42,7 @@ public class ImageTextGenService {
          var systemMessage = new SystemMessage(defaultSystemMessage);
         return chatModel.call(userMessage, systemMessage);
     }
-
+    //                                                                         query=EBS 세제곱근, 제곱근, 곱셈
     public List<String> searchYouTubeVideos(String query) {
         String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=EBS " +
                 query + "&order=relevance&key=본인의 key를 입력하세요";
@@ -50,6 +50,7 @@ public class ImageTextGenService {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         System.out.println(response.getBody());
+
         List<String> videoUrls = new ArrayList<>();
         JSONObject jsonResponse = new JSONObject(response.getBody());
         JSONArray items = jsonResponse.getJSONArray("items");
@@ -65,8 +66,10 @@ public class ImageTextGenService {
     public String extractKeyYouTubeSearch(String analysisText) {
         String keyword=null;
         if(analysisText.indexOf("핵심 키워드:")!=-1){
+               //                                                                    핵심 키워드: 세제곱근, 제곱근, 곱셈
                keyword=analysisText.substring(analysisText.indexOf("핵심 키워드:")).split(":")[1].trim();
         }
+        //          세제곱근, 제곱근, 곱셈
         return keyword;
     }
 }

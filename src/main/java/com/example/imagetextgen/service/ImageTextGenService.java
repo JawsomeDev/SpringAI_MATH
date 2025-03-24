@@ -45,7 +45,7 @@ public class ImageTextGenService {
     //                                                                         query=EBS 세제곱근, 제곱근, 곱셈
     public List<String> searchYouTubeVideos(String query) {
         String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=EBS " +
-                query + "&order=relevance&key=본인의 key를 입력하세요";
+                query + "&order=relevance&key=AIzaSyD19zwQa01osoZPku7jKxOrvz6wQxMty08";
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
